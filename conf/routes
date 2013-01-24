@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                             controllers.Application.index()
+GET     /programs/$date<[0-9]+-[0-9]+-[0-9]+>   controllers.Programs.getSome(date)
+GET     /programs/$pid<[a-zA-Z0-9]+>                  controllers.Programs.get(pid)
+GET     /programs/channels/$cid<[a-zA-Z0-9]+>         controllers.Channels.get(cid)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
