@@ -9,7 +9,7 @@ import com.mongodb.casbah._, Imports._
 case class Program (
   channel: String,
   title: String,
-  date: DateTime,
+  date: String,
   link: String
 ) {
 	  def asJson = {
@@ -17,7 +17,7 @@ case class Program (
 	      Map(
 	        "channel" -> toJson(channel),
 	        "title" -> toJson(title),
-	        "date" -> toJson(date.toString()),
+	        "date" -> toJson(date),
 	        "link" -> toJson(link)
 	      )
 	    )	
@@ -28,7 +28,7 @@ object Program {
 	def create(
     channel: String,
     title: String,
-    date: DateTime,
+    date: String,
     link: String
 	): Program = {
 	  Program(
@@ -38,7 +38,11 @@ object Program {
 	    link = link
 	  )	
 	}
-	//def save(program: Program): 
+	/*def save(program: Program): Program = {
+		  Dbconnect.db("programs").save(program)
+		  return program
+		}*/
+
 	def find(query: MongoDBObject): Option[List[Program]] = {
 	  Some(
       Dbconnect.db("programs").find(query).sort(MongoDBObject(
@@ -51,8 +55,7 @@ object Program {
 	  apply(
 	    dbo.as[String]("channel"),
 	    dbo.as[String]("title"),
-	    //dbo.getAs[DateTime]("date") getOrElse 
-	    new DateTime(),
+	    dbo.as[String]("date"),
 	    dbo.as[String]("link")
 	  )	
 	}

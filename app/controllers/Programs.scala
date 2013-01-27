@@ -3,8 +3,6 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import org.joda.time.DateTime
-
 import com.mongodb.casbah._, Imports._
 
 import play.api.libs.json._, Json._
@@ -21,7 +19,7 @@ object Programs extends Controller {
 
   def getSome(date: String) = Action {
     Program.find(MongoDBObject(
-      "date" -> new DateTime(date)
+      "date" -> date
     )) map { p => Ok(Json.toJson(p map {_.asJson})) } getOrElse NotFound
   }
   
