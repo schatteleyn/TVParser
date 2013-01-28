@@ -8,6 +8,7 @@ import com.mongodb.casbah._, Imports._
 import play.api.libs.json._, Json._
 
 import models.Program
+import parsing.ParsedTitle
 
 object Programs extends Controller {
   
@@ -22,5 +23,5 @@ object Programs extends Controller {
       "date" -> date
     )) map { p => Ok(Json.toJson(p map {_.asJson})) } getOrElse NotFound
   }
-  
+
 }

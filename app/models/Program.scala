@@ -5,6 +5,7 @@ import play.api.libs.json._, Json._
 import com.mongodb.casbah._, Imports._
 
 case class Program (
+  id: ObjectId,
   channel: String,
   title: String,
   date: String,
@@ -14,6 +15,7 @@ case class Program (
 	  def asJson = {
 	    Json.toJson(
 	      Map(
+	        "_id" -> toJson(id.toString),
 	        "channel" -> toJson(channel),
 	        "title" -> toJson(title),
 	        "date" -> toJson(date),
@@ -22,6 +24,14 @@ case class Program (
 	      )
 	    )	
 	  }
+	  def asMongoDBObject = MongoDBObject(
+	    "_id" -> id,
+	    "channel" -> channel,
+	    "title" -> title,
+	    "date" -> date,
+	    "hour" -> hour,
+	    "link" -> link
+	  )
 	}
 
 object Program {
@@ -33,6 +43,7 @@ object Program {
     link: String
 	): Program = {
 	  Program(
+	    id = new ObjectId(),
 	    channel = channel,
 	    title = title,
 	    date = date,
@@ -40,10 +51,14 @@ object Program {
 	    link = link
 	  )	
 	}
-	/*def save(program: Program): Program = {
-		  Dbconnect.db("programs").save(program)
-		  return program
-		}*/
+	def save(program: Program) = {
+		  Dbconnect.db("programs").update(
+		  MongoDBObject("_id" -> program.id.toString),
+        program.asMongoDBObject,
+        true,
+        false
+		  )
+	}
 
 	def find(query: MongoDBObject): Option[List[Program]] = {
 	  Some(
@@ -55,6 +70,7 @@ object Program {
 
 	def apply(dbo: MongoDBObject): Program = {
 	  apply(
+	    dbo.as[ObjectId]("_id"),
 	    dbo.as[String]("channel"),
 	    dbo.as[String]("title"),
 	    dbo.as[String]("date"),
