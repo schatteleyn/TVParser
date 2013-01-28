@@ -1,7 +1,5 @@
 package models
 
-import org.joda.time.DateTime
-
 import play.api.libs.json._, Json._
 
 import com.mongodb.casbah._, Imports._
@@ -10,6 +8,7 @@ case class Program (
   channel: String,
   title: String,
   date: String,
+  hour: String,
   link: String
 ) {
 	  def asJson = {
@@ -18,6 +17,7 @@ case class Program (
 	        "channel" -> toJson(channel),
 	        "title" -> toJson(title),
 	        "date" -> toJson(date),
+	        "hour" -> toJson(hour),
 	        "link" -> toJson(link)
 	      )
 	    )	
@@ -29,12 +29,14 @@ object Program {
     channel: String,
     title: String,
     date: String,
+    hour: String,
     link: String
 	): Program = {
 	  Program(
 	    channel = channel,
 	    title = title,
 	    date = date,
+	    hour = hour,
 	    link = link
 	  )	
 	}
@@ -56,6 +58,7 @@ object Program {
 	    dbo.as[String]("channel"),
 	    dbo.as[String]("title"),
 	    dbo.as[String]("date"),
+	    dbo.as[String]("hour"),
 	    dbo.as[String]("link")
 	  )	
 	}
