@@ -1,4 +1,8 @@
-This is your new Play 2.0 application
-=====================================
+This is a simple application in Play! Framework 2.0.4, using scala and MongoDB.  
+It parse the RSS Flux of a tv guide website and expose a REST HTTP API, giving datas in JSON.  
+You can use the following:  
+  * *programs/channels/<channel>* To get the list of the programs by channel
+  * *programs/yyyy-MM-dd* To get the programs by date
+  * *programs/programname* Get the diffusion of the program
 
-This file will be packaged with your application, when using `play dist`.
+It's very simple and surely has some bugs, but it just to try Play! Framework with scala and MongoDB.
